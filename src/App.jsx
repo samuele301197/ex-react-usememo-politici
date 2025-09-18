@@ -1,5 +1,18 @@
-import { use, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import politicians from "./db.js";
+
+function PoliticsCards({ name, role, image, description }) {
+  return (
+    <div>
+      <h3>{name}</h3>
+      <h4>{role}</h4>
+      <p>{description}</p>
+      <img src={image} alt={name} />
+    </div>
+  );
+}
+
+const PoliticsCardsMemo = React.memo(PoliticsCards);
 
 function App() {
   const [politics, setPolitics] = useState([]);
@@ -31,12 +44,7 @@ function App() {
         onChange={(e) => setSearch(e.target.value)}
       />
       {filteredPoliticians.map((p) => (
-        <div>
-          <h3>{p.name}</h3>
-          <h4>{p.role}</h4>
-          <p>{p.description}</p>
-          <img src={p.image} alt={p.name} />
-        </div>
+        <PoliticsCardsMemo key={p.id} {...p} />
       ))}
     </>
   );
